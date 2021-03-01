@@ -1,0 +1,190 @@
+$magnet-height: 60px;
+$magnet-length: 60px;
+$tube-height: 62px;
+$tube-length: 600px;
+$magnet-padding-vertical: ($tube-height - $magnet-height) / 2;
+
+.mainDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main_info {
+  position: absolute;
+  left: 100px;
+  top: 20px;
+  background-color: #ffffff;
+  border-style: double;
+  border-width: 2px;
+  border-radius: 5px;
+  border-color: #1C1C1C;
+  padding: 10px;
+  min-width: 120px;
+  min-height: 80px;
+}
+
+.buttons_div {
+  position: absolute;
+  right: 50px;
+  top: 20px;
+  z-index: 2000;
+}
+
+.button_action {
+  margin-bottom: 10px;
+  border-radius: 10px;
+  min-width: 70px;
+}
+
+.work_div {
+  position: absolute;
+  left: 350px;
+  top: 20px;
+  //margin-bottom: 100px;
+  height: 130px;
+  min-width: 200px;
+  border-style: solid;
+  border-width: 0 0 0 2px;
+
+  //background-color: #ffaa3c;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.progress_line {
+  height: 50px;
+  color: #000000;
+  font-family: ‘Open Sans’, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.engine_tube {
+  position: relative;
+  margin-top: 50px;
+  width: $tube-length;
+  height: $tube-height;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #533625;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 10px #6b6464;
+  z-index: 1;
+}
+
+.camera {
+  position: absolute;
+  top: $magnet-padding-vertical - 1px;
+  height: $magnet-height + 3px;
+  width: 200px;
+  background-color: #64d493;
+  z-index: 2;
+}
+
+.coil_div {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.coil {
+  //position: absolute;
+  //left: 0;
+  //top: 0;
+  width: 20px;
+  height: $tube-height + 16px;
+  //background-color: #35ff00;
+  //opacity: 0.7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  //z-index: -1;
+}
+
+.coil_line {
+  height: 100%;
+  width: 4px;
+  background-color: #dd0d01;
+  opacity: 0.7;
+  //z-index: -1;
+}
+
+.coil_number {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  color: #000000;
+  font-family: ‘Open Sans’, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #ebebeb;
+  width: 20px;
+  border-radius: 2px;
+}
+
+.magnet {
+  background: linear-gradient(to right, #9197a2, #e0d9d9);
+  border-style: solid;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #7c7b7b;
+  height: $magnet-height - 2px;
+  width: $magnet-length - 2px;
+  z-index: 4;
+}
+
+.magnet_side_left {
+  position: absolute;
+  left: -$magnet-length / 2;
+  top: $magnet-padding-vertical;
+}
+
+.magnet_side_right {
+  position: absolute;
+  right: -$magnet-length / 2;
+  top: $magnet-padding-vertical;
+}
+
+.magnet_center {
+  position: absolute;
+  top: $magnet-padding-vertical;
+}
+
+.force_line {
+  position: absolute;
+  left: 0;
+  top: $magnet-height / 2 + 4px;
+  width: 20px;
+  height: 6px;
+  background-color: #0E51A7;
+}
+
+.force_number {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  color: #000000;
+  font-family: ‘Open Sans’, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  background-color: #ebebeb;
+  width: 40px;
+  border-radius: 2px;
+}
+
+.valve {
+  top: -6px;
+  //left: 0;
+  position: absolute;
+  background-color: #454f7e;
+  width: 20px;
+  height: 10px;
+}

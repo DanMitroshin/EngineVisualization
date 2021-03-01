@@ -1,0 +1,130 @@
+.content_main {
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  min-width: 100vm;
+  //margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom right, #bce3fc, #faa4a4);
+}
+
+.content {
+  //box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //min-height: 100vh;
+  //min-width: 100vm;
+
+
+  //background: linear-gradient(#ffffed, #DEFFFF);//#FFEEC4) //#FFF6F9;//#f0f5f6;
+}
+
+.change {
+  text-decoration:none;
+}
+
+.date {
+  color: #111;
+  display: block;
+  font-family: ‘Open Sans’, sans-serif;
+  font-size: 16px;
+  position: relative;
+  text-align: center;
+  z-index: 1;
+
+  &:before {
+    border-top: 1px solid #111;
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+}
+
+.author {
+  color: #111;
+  display: block;
+  font-family: ‘Open Sans’, sans-serif;
+  font-size: 16px;
+  padding-bottom: 38px;
+  position: relative;
+  background: none;
+  text-align: center;
+  z-index: 1;
+  content: "";
+  &:before {
+    border-top: 1px solid #111;
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+  }
+}
+
+.date span, .author span {
+  background: #fdfdfd;
+  padding: 0 10px;
+  text-transform: uppercase;
+}
+
+.line {
+  border-top: 1px solid #111;
+  display: block;
+  margin-top: 60px;
+  padding-top: 50px;
+  position: relative;
+}
+
+.read_more {
+  margin: 0 auto;
+  -moz-border-radius: 50%;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-border-radius: 50%;
+  -webkit-transition: all 0.2s ease-in-out;
+  background: #111;
+  border-radius: 50%;
+  border: 10px solid #FFB992;
+  color: #fff;
+  display: block;
+
+  font-family: ‘Open Sans’, sans-serif;
+  font-size: 20px;
+  height: 100px;
+  line-height: 100px;
+  /*margin: -40px 0 0 -40px;*/
+  /*position: absolute; */
+  bottom: 0px;
+  left: 50%;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100px;
+  text-decoration:none;
+}
+
+.read_more:hover {
+  cursor: pointer;
+  background: #990000;
+  text-decoration: none;
+}
+
+
+.letter {
+  width: 40px;
+  border: solid #282c34;
+
+  background: rgb(random(255), random(255), random(255));
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    padding: 45px 40px;
+  }
+}
+

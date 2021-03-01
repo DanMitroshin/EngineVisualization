@@ -1,0 +1,123 @@
+@import "../../assets/colors";
+@import "../../assets/fonts";
+
+.button {
+  width: 100%;
+  //width: 160px;
+  //max-width: 200px;
+  //height: 56px;
+  //max-width: 300px;
+  min-height: 38px;
+  //margin: 6px;
+  //height: 100%;
+
+  background: black;
+  border: solid 2px black;
+  outline: none;
+  color: $color_white;
+
+  font-family: 'PT Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  //font-stretch: ultra-expanded;
+  //font-weight: bold;
+  transition: all 0.6s;
+  cursor: pointer;
+  &:hover {
+    color: $color_black;
+    background: $color_white;
+  }
+  &:active {
+    color: $color_orange;
+    background: $color_white;
+  }
+}
+
+.button_orange {
+  background: $color_orange_light;
+  border-color: $color_orange_light;
+
+  &:hover {
+    color: $color_orange;
+    background: $color_white;
+  }
+  &:active {
+    color: $color_orange;
+    background: $color_black;
+  }
+}
+
+/*.button {
+  position: relative;
+  height: 60px;
+  width: 300px;
+  background-color: transparent;
+  border: 3px solid #fff;
+  color: #fff;
+  cursor: pointer;
+  transition: color 150ms cubic-bezier(0.1, 0.7, 0.6, 0.9);
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: #fff;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 150ms cubic-bezier(0.1, 0.7, 0.6, 0.9);
+  }
+
+  &:hover {
+    &.button-start {
+      color: #f1b00f;
+    }
+
+    &.button-next {
+      color: #c598af;
+    }
+
+    &::before {
+      transform: scaleX(1)
+    }
+  }
+
+  &-text {
+    position: relative;
+  }
+}*/
+
+
+.button_red {
+  background: $color_red_light;
+  border-color: $color_red_light;
+
+  &:hover {
+    color: $color_red_light;
+    background: $color_white;
+  }
+  &:active {
+    color: $color_red;
+    background: $color_black;
+  }
+}
+
+.button_green {
+  background: $color_green_light;
+  border-color: $color_green_light;
+
+  &:hover {
+    color: $color_green_light;
+    background: $color_white;
+  }
+  &:active {
+    color: $color_green;
+    background: $color_black;
+  }
+}
+
+.empty_class {
+
+}

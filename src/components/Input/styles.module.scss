@@ -1,0 +1,27 @@
+
+.input {
+  width: 100%;
+  height: 30px;
+  font-size: 18px;
+
+  border: none;
+  outline: none;
+  border-bottom: solid 1px #b4b4b4;
+  padding: 4px 2px;
+  box-sizing: border-box;
+
+  margin-bottom: 15px;
+
+  &:focus {
+    border-bottom: solid 2px black;
+    padding-bottom: 3px;
+    transition-property: border-bottom;
+    transition-duration: 0.3s;
+  }
+}
+
+.field_input {
+  display: flex;
+  flex-direction: column;
+
+}

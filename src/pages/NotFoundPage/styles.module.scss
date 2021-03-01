@@ -1,0 +1,85 @@
+@import "../../assets/colors";
+
+.main_content {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(to bottom, #2700ff, #ffc826);
+  padding: 50px 0 30px;
+
+  *, *::after, *::before {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+}
+
+.content {
+  width: 90%;
+  min-width: 270px;
+  //margin-left: 100px;
+  margin: 0 10px 0 30px;
+
+  h1 {
+    font-size: 23px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+}
+
+.course_Button {
+  font-size: 15px;
+  height: 42px;
+  border-radius: 6px;
+  width: 130px;
+  margin-left: 0;
+  margin-top: 10px;
+}
+
+._white {
+  color: $color_white;
+}
+
+._black {
+  color: $color_black;
+}
+
+@media screen and (min-width: 768px) {
+  .content {
+    display: block;
+    padding-left: 100px;
+
+    h1 {
+      font-size: 55px;
+    }
+
+    p {
+      font-size: 20px;
+    }
+  }
+
+  .course_Button {
+    font-size: 30px;
+    height: 70px;
+    border-radius: 9px;
+    width: 200px;
+    //margin-left: 14px;
+  }
+}
+
+.test_strips {
+  position: absolute;
+  //display: block;
+  width: 100%;
+  height: 20%;
+  //z-index: 1000;
+  background: repeating-linear-gradient(
+                  45deg,
+                  #606dbc,
+                  #606dbc 10px,
+                  #465298 10px,
+                  #465298 20px
+  );
+}
