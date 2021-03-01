@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/EngineVisual/static/css/main.3277f664.chunk.css",
+    "main.js": "/EngineVisual/static/js/main.f4141fc8.chunk.js",
+    "main.js.map": "/EngineVisual/static/js/main.f4141fc8.chunk.js.map",
+    "runtime-main.js": "/EngineVisual/static/js/runtime-main.ae3479e7.js",
+    "runtime-main.js.map": "/EngineVisual/static/js/runtime-main.ae3479e7.js.map",
+    "static/js/2.4b26c06d.chunk.js": "/EngineVisual/static/js/2.4b26c06d.chunk.js",
+    "static/js/2.4b26c06d.chunk.js.map": "/EngineVisual/static/js/2.4b26c06d.chunk.js.map",
+    "index.html": "/EngineVisual/index.html",
+    "static/css/main.3277f664.chunk.css.map": "/EngineVisual/static/css/main.3277f664.chunk.css.map",
+    "static/js/2.4b26c06d.chunk.js.LICENSE.txt": "/EngineVisual/static/js/2.4b26c06d.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/EngineVisual/static/media/Circe-Thin.eefc3628.eot",
+    "static/media/polygon.762c7589.png": "/EngineVisual/static/media/polygon.762c7589.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ae3479e7.js",
+    "static/js/2.4b26c06d.chunk.js",
+    "static/css/main.3277f664.chunk.css",
+    "static/js/main.f4141fc8.chunk.js"
+  ]
+}
