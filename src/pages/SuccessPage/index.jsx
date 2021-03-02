@@ -2,9 +2,8 @@ import React, {useState, useEffect} from 'react';
 import styles from "./styles.module.scss";
 import Content from "../../components/Content";
 import cn from 'classnames';
-import {MAIN_URL} from "../../constants";
-import polygon from "../../assets/media/polygon.png";
-import {httpPost} from "../../helpers/networks";
+//import {MAIN_URL} from "../../constants";
+//import polygon from "../../assets/media/polygon.png";
 import {logs} from "../../constants/logs";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
@@ -24,11 +23,11 @@ const halfMagnet = 0.015;
 
 const Coil = (index, current) => {
     return <div className={styles.coil}>
-            {coilsLinesNumbers.map(e => (
-                <div
+            {coilsLinesNumbers.map((e, i) => (
+                <div key={i.toString()}
                     className={styles.coil_line}
                     style={{backgroundColor: `rgba(255, 20, 20, ${
-                        Math.min(1.0, Math.max(0.2, (1 + 3 * Math.abs(current) / 25.0) / 4))
+                        Math.min(0.9, Math.max(0.1, (1 + 9 * Math.abs(current) / 25.0) / 10 * 0.9))
                     })`}}
                 />
             ))}
@@ -73,6 +72,9 @@ const ForceLine = (force, isTotalForce = true) => {
 
 
 function SuccessPage() {
+    
+    const [data, setData] = useState(logs);
+    const [log, setLog] = useState(logs[0]);
 
     const [counter, _setCounter] = useState(0);
     const setNextCounter = (value = -1) => {
@@ -87,11 +89,22 @@ function SuccessPage() {
         }
     }
 
-    const [intervalID, setIntervalID] = useState(undefined);
+    useEffect(() => {
+        try {
+            setLog(data[counter])
+        } catch (e) {
+            _setCounter(0)
+            setLog(logs[0]);
+            setData(logs)
+        }
+    }, [counter, data])
+    
+
+    //const [intervalID, setIntervalID] = useState(undefined);
     const [stop, setStop] = useState(false);
 
     const [prevAC, setPrevAC] = useState(0.0)
-    const [curAC, setCurAC] = useState(0.0)
+    //const [curAC, setCurAC] = useState(0.0)
 
     const [prevWork, setPrevWork] = useState(0.0)
 
@@ -99,15 +112,15 @@ function SuccessPage() {
         if (counter === 0) {
             setPrevAC(0.0)
             setPrevWork(0.0)
-            setCurAC(0.0)
+            //setCurAC(0.0)
         } else if (counter > 10) {
-            if (logs[counter].p === 1 && logs[counter - 1].p === 6) {
-                setPrevAC(logs[counter - 1].ac)
-                setPrevWork(logs[counter - 1].w)
+            if (log.p === 1 && data[counter - 1].p === 6) {
+                setPrevAC(data[counter - 1].ac)
+                setPrevWork(data[counter - 1].w)
             }
-            setCurAC(logs[counter].ac)
+            //setCurAC(log.ac)
         }
-    }, [counter])
+    }, [counter, log, data])
 
     const [time, _setTime] = useState("5")
     const setTime = (data) => {
@@ -129,7 +142,7 @@ function SuccessPage() {
     }
 
     const pAtm = 101325;
-    const LAST_INDEX = logs.length - 8;
+    const LAST_INDEX = data.length - 8;
 
     useEffect(() => {
         if (!stop) {
@@ -151,20 +164,64 @@ function SuccessPage() {
         }, Math.max(200, parseInt(time) * 2.1))
     }
 
+    const onFile = (e) => {
+        // console.log("INPUT", input)
+        // return;
+
+        setStop(true)
+        _setCounter(0);
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        // const file = input.files[0];
+        //
+        // const reader = new FileReader();
+
+        reader.readAsText(file);
+
+        reader.onload = function() {
+            setData(eval(reader.result));
+            //console.log(reader.result);
+        };
+
+        reader.onerror = function() {
+            console.log(reader.error);
+        };
+
+    }
+
     return <Content>
         <div className={styles.main_info}>
-            <div>phase: {logs[counter].p}</div>
-            <div>time: {logs[counter].t}</div>
+            <div>phase: {log.p}</div>
+            <div>time: {log.t}</div>
             <div>counter: {counter}</div>
+            <div>KPD: {Math.round(log.w / 65.0 / (log.ac + 0.0000001) * 100) / 100}%</div>
         </div>
         <div className={styles.buttons_div}>
             <Button onClick={onPause} className={styles.button_action}>
                 {stop ? "START" : "PAUSE"}
             </Button>
-            <Button onClick={onRestart} className={styles.button_action}>
+            <Button onClick={onRestart} className={styles.button_action} type="black">
                 RESTART
             </Button>
             <Input data={time} changeData={setTime} label="Интервал от 1 до 1000"/>
+            <input
+                type="file"
+                onChange={(e) => onFile(e)}
+            />
+            {/*<div className={styles.input__wrapper}>*/}
+            {/*    <input type="file" name="file" id="input__file"*/}
+            {/*           className={styles.input__file} multiple/>*/}
+            {/*        <label htmlFor="input__file" className={styles.input__file_button}>*/}
+            {/*            /!*<span className="input__file-icon-wrapper">*!/*/}
+            {/*            /!*    <img className="input__file-icon" src="./img/add.svg"*!/*/}
+            {/*            /!*                                                alt="Выбрать файл" width="25"/>*!/*/}
+            {/*            /!*    </span>*!/*/}
+            {/*            <span className={styles.input__file_button_text}>Выберите файл</span>*/}
+            {/*        </label>*/}
+            {/*</div>*/}
         </div>
 
 
@@ -174,7 +231,7 @@ function SuccessPage() {
                     className={styles.progress_line}
                      style={{
                          backgroundColor: "#ff0000",
-                         width: `${Math.round((logs[counter].ac - prevAC) * 6000)}px`
+                         width: `${Math.round((log.ac - prevAC) * 6000)}px`
                      }}
                 >
                     Air consumption
@@ -183,7 +240,7 @@ function SuccessPage() {
                     className={styles.progress_line}
                      style={{
                          backgroundColor: "#0000ff",
-                         width: `${Math.round((logs[counter].w - prevWork) * 20)}px`
+                         width: `${Math.round((log.w - prevWork) * 20)}px`
                      }}
                 >
                     Useful work
@@ -195,17 +252,17 @@ function SuccessPage() {
                     className={styles.camera}
                     style={{
                         left: '30px',
-                        width: k * (center + logs[counter].x1 - halfMagnet * 2) + 'px',
-                        backgroundColor: `rgba(5, 5, 255, ${Math.min(1.0, logs[counter].p1 / pAtm / 15)})`
+                        width: k * (center + log.x1 - halfMagnet * 2) + 'px',
+                        backgroundColor: `rgba(5, 5, 255, ${Math.min(1.0, log.p1 / pAtm / 15)})`
                     }}
                 />
                 <div
                     id="central-camera"
                     className={styles.camera}
                     style={{
-                        left: k * (center + logs[counter].x1 + halfMagnet) + 'px',
-                        width: k * (-logs[counter].x1 + logs[counter].x2 - halfMagnet * 2) + 'px',
-                        backgroundColor: `rgba(5, 5, 255, ${Math.min(1.0, logs[counter].p2 / pAtm / 15)})`
+                        left: k * (center + log.x1 + halfMagnet) + 'px',
+                        width: k * (-log.x1 + log.x2 - halfMagnet * 2) + 'px',
+                        backgroundColor: `rgba(5, 5, 255, ${Math.min(1.0, log.p2 / pAtm / 15)})`
                     }}
                 />
                 <div
@@ -213,60 +270,40 @@ function SuccessPage() {
                     className={styles.camera}
                     style={{
                         right: '30px',
-                        width: k * (center - logs[counter].x2 - halfMagnet * 2) + 'px',
-                        backgroundColor: `rgba(5, 5, 255, ${Math.min(1.0, logs[counter].p3 / pAtm / 15)})`
+                        width: k * (center - log.x2 - halfMagnet * 2) + 'px',
+                        backgroundColor: `rgba(5, 5, 255, ${Math.min(1.0, log.p3 / pAtm / 15)})`
                     }}
                 />
                 {/*INFO CAMERAS*/}
                 <div id="info-left-camera"
                     className={styles.main_info} style={{top: '-130px', left: '-30px'}}>
-                    <div>phase: {logs[counter].p}</div>
-                    <div>p: {logs[counter].p1} | {Math.floor(logs[counter].p1 / pAtm)}атм</div>
-                    <div>t: {logs[counter].t1}</div>
+                    <div>phase: {log.p}</div>
+                    <div>p: {log.p1} | {Math.floor(log.p1 / pAtm)}атм</div>
+                    <div>t: {log.t1}</div>
                 </div>
                 <div id="info-central-camera"
                      className={styles.main_info} style={{top: '-130px', left: '220px'}}>
-                    <div>phase: {logs[counter].p}</div>
-                    <div>p: {logs[counter].p2} | {Math.floor(logs[counter].p2 / pAtm)}атм</div>
-                    <div>t: {logs[counter].t2}</div>
+                    <div>phase: {log.p}</div>
+                    <div>p: {log.p2} | {Math.floor(log.p2 / pAtm)}атм</div>
+                    <div>t: {log.t2}</div>
                 </div>
                 <div id="info-right-camera"
                      className={styles.main_info} style={{top: '-130px', left: '480px', width: '140px'}}>
-                    <div>phase: {logs[counter].p}</div>
-                    <div>p: {logs[counter].p3} | {Math.floor(logs[counter].p3 / pAtm)}атм</div>
-                    <div>t: {logs[counter].t3}</div>
+                    <div>phase: {log.p}</div>
+                    <div>p: {log.p3} | {Math.floor(log.p3 / pAtm)}атм</div>
+                    <div>t: {log.t3}</div>
                 </div>
-
-                {
-                    coilsPositions.map((pos, i) => (
-                        <div
-                            className={styles.coil_div}
-                            style={{
-                                top: '-8px',
-                                left: k * (center + pos - HALF_COIL / 2) + 'px',
-                                //opacity: 0.6,
-                                backgroundColor: i % 2 ? 'rgba(172,172,172, 0.4)' :
-                                    'rgba(144,222,209, 0.4)'
-                            }}
-                        >
-                            {Coil(0, logs[counter][`c${i + 1}`])}
-                            <div className={styles.coil_number}>
-                                {Math.round(logs[counter][`c${i + 1}`])}
-                            </div>
-                        </div>
-                    ))
-                }
 
                 <div
                     id="left-valve"
                     className={styles.valve}
                     style={{
                         left: '40px',
-                        backgroundColor: (logs[counter].p === 1 || logs[counter].p === 5 ||
-                            logs[counter].p === 7) ? "#0000ff" : (logs[counter].p === 6 ?
+                        backgroundColor: (log.p === 1 || log.p === 5 ||
+                            log.p === 7) ? "#0000ff" : (log.p === 6 ?
                             "#ffffff" : "#000000"),
-                        height: (logs[counter].p === 1 || logs[counter].p === 5 ||
-                            logs[counter].p === 7) ? '10px' : (logs[counter].p === 6 ?
+                        height: (log.p === 1 || log.p === 5 ||
+                            log.p === 7) ? '10px' : (log.p === 6 ?
                             '10px' : '6px')
                     }}
                 />
@@ -276,11 +313,11 @@ function SuccessPage() {
                     className={styles.valve}
                     style={{
                         left: '290px',
-                        backgroundColor: (logs[counter].p === 3 || logs[counter].p === 6) ?
-                            "#0000ff" : (logs[counter].p <= 2 ?
+                        backgroundColor: (log.p === 3 || log.p === 6) ?
+                            "#0000ff" : (log.p <= 2 ?
                             "#ffffff" : "#000000"),
-                        height: (logs[counter].p === 3 || logs[counter].p === 6) ?
-                            '10px' : (logs[counter].p <= 2 ?
+                        height: (log.p === 3 || log.p === 6) ?
+                            '10px' : (log.p <= 2 ?
                             '10px' : '6px')
                     }}
                 />
@@ -290,11 +327,11 @@ function SuccessPage() {
                     className={styles.valve}
                     style={{
                         right: '45px',
-                        backgroundColor: (logs[counter].p === 1 || logs[counter].p === 5 ||
-                            logs[counter].p === 7) ? "#0000ff" : (logs[counter].p === 6 ?
+                        backgroundColor: (log.p === 1 || log.p === 5 ||
+                            log.p === 7) ? "#0000ff" : (log.p === 6 ?
                             "#ffffff" : "#000000"),
-                        height: (logs[counter].p === 1 || logs[counter].p === 5 ||
-                            logs[counter].p === 7) ? '10px' : (logs[counter].p === 6 ?
+                        height: (log.p === 1 || log.p === 5 ||
+                            log.p === 7) ? '10px' : (log.p === 6 ?
                             '10px' : '6px')
                     }}
                 />
@@ -304,29 +341,49 @@ function SuccessPage() {
                 <div className={cn(styles.magnet, styles.magnet_side_right)}/>
                 {/*center magnets*/}
                 <div className={cn(styles.magnet, styles.magnet_center)}
-                     style={{left: k * (center + logs[counter].x1 - halfMagnet) + 'px'}}
+                     style={{left: k * (center + log.x1 - halfMagnet) + 'px'}}
                 >
                     <div className={styles.main_info} style={{top: '80px', left: '-130px'}}>
-                        <div>phase: {logs[counter].p}</div>
-                        <div>x: {logs[counter].x1}</div>
-                        <div>v: {logs[counter].v1}</div>
-                        <div>a: {logs[counter].a1}</div>
+                        <div>phase: {log.p}</div>
+                        <div>x: {log.x1}</div>
+                        <div>v: {log.v1}</div>
+                        <div>a: {log.a1}</div>
                     </div>
-                    {ForceLine(logs[counter].tf1)}
-                    {ForceLine(logs[counter].f1, false)}
+                    {ForceLine(log.tf1)}
+                    {ForceLine(log.f1, false)}
                 </div>
                 <div className={cn(styles.magnet, styles.magnet_center)}
-                     style={{right: k * (center - logs[counter].x2 - halfMagnet) + 'px'}}
+                     style={{right: k * (center - log.x2 - halfMagnet) + 'px'}}
                 >
                     <div className={styles.main_info} style={{top: '80px', left: '50px'}}>
-                        <div>phase: {logs[counter].p}</div>
-                        <div>x: {logs[counter].x2}</div>
-                        <div>v: {logs[counter].v2}</div>
-                        <div>a: {logs[counter].a2}</div>
+                        <div>phase: {log.p}</div>
+                        <div>x: {log.x2}</div>
+                        <div>v: {log.v2}</div>
+                        <div>a: {log.a2}</div>
                     </div>
-                    {ForceLine(logs[counter].tf2)}
-                    {ForceLine(logs[counter].f2, false)}
+                    {ForceLine(log.tf2)}
+                    {ForceLine(log.f2, false)}
                 </div>
+
+                {
+                    coilsPositions.map((pos, i) => (
+                        <div key={i.toString()}
+                             className={styles.coil_div}
+                             style={{
+                                 top: '-8px',
+                                 left: k * (center + pos - HALF_COIL / 2) + 'px',
+                                 //opacity: 0.6,
+                                 backgroundColor: i % 2 ? 'rgba(172,172,172, 0.4)' :
+                                     'rgba(144,222,209, 0.4)'
+                             }}
+                        >
+                            {Coil(0, log[`c${i + 1}`])}
+                            <div className={styles.coil_number}>
+                                {Math.round(log[`c${i + 1}`])}
+                            </div>
+                        </div>
+                    ))
+                }
 
             </div>
         </div>

@@ -2,9 +2,9 @@
 @import "../../assets/fonts";
 
 .button {
-  width: 100%;
-  //width: 160px;
-  //max-width: 200px;
+  //width: 100%;
+  width: 160px;
+  max-width: 200px;
   //height: 56px;
   //max-width: 300px;
   min-height: 38px;
@@ -44,6 +44,20 @@
   &:active {
     color: $color_orange;
     background: $color_black;
+  }
+}
+
+.button_black {
+  background: $color_grey;
+  border-color: $color_grey;
+
+  &:hover {
+    color: $color_black;
+    background: $color_white;
+  }
+  &:active {
+    color: $color_orange;
+    background: $color_white;
   }
 }
 

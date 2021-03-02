@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from "./styles.module.scss";
 import cn from 'classnames';
-import {NavLink} from "react-router-dom";
-import {MAIN_URL} from "../../constants";
+// import {NavLink} from "react-router-dom";
+// import {MAIN_URL} from "../../constants";
 import {withRouter} from 'react-router-dom';
 /*import Header from "../Header";
 import Footer from "../Footer";*/
